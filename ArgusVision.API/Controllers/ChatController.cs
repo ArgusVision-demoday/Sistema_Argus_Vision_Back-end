@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ArgusVision.API.DTOs;
+using ArgusVision.API.Interfaces;
 
 namespace ArgusVision.API.Controllers
 {
@@ -7,12 +8,21 @@ namespace ArgusVision.API.Controllers
     [Route("api/[controller]")]
     public class ChatController : ControllerBase
     {
-        [HttpPost]
-        public ActionResult<ChatResponse> EnviarMensagem(ChatRequest request)
+        private readonly IGroqService _groqService;
+
+        public ChatController(IGroqService groqService)
         {
+            _groqService = groqService;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ChatResponse>> EnviarMensagem(ChatRequest request)
+        {
+            string respostaIA = await _groqService.SendMessageAsync(request.Mensagem);
+
             ChatResponse response = new ChatResponse
             {
-                Resposta = $"Você disse: {request.Mensagem}"
+                Resposta = respostaIA
             };
 
             return Ok(response);

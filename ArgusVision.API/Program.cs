@@ -1,4 +1,13 @@
+using ArgusVision.API.Configuration;
+using ArgusVision.API.Interfaces;
+using ArgusVision.API.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<GroqSettings>(
+    builder.Configuration.GetSection("Groq"));
+
+builder.Services.AddScoped<IGroqService, GroqService>();
 
 // Serviços
 builder.Services.AddControllers();

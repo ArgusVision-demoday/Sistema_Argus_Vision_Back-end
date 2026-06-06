@@ -6,7 +6,7 @@ namespace ArgusVision.API.Services
     {
         public Task<string> SendMessageAsync(string message)
         {
-            throw new NotImplementedException();
+            return Task.FromResult($"Elion recebeu: {message}");
         }
     }
 }
