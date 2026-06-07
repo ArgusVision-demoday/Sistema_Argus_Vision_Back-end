@@ -9,6 +9,8 @@ builder.Services.Configure<GroqSettings>(
 
 builder.Services.AddScoped<IGroqService, GroqService>();
 
+builder.Services.AddHttpClient();
+
 // Serviços
 builder.Services.AddControllers();
 
