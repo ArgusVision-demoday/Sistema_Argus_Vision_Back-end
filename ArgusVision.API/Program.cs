@@ -9,6 +9,11 @@ builder.Services.Configure<GroqSettings>(
 
 builder.Services.AddScoped<IGroqService, GroqService>();
 
+builder.Services.AddScoped<IPromptService, PromptService>();
+
+builder.Services.AddSingleton<IConversationMemoryService,
+                              ConversationMemoryService>();
+
 builder.Services.AddHttpClient();
 
 // Serviços
@@ -17,6 +22,17 @@ builder.Services.AddControllers();
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -28,6 +44,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("FrontendPolicy");
 
 app.UseAuthorization();
 
