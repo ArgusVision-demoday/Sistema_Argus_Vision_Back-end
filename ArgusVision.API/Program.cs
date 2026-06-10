@@ -43,7 +43,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.Urls.Add("http://0.0.0.0:8080");
+}
 
 app.UseCors("FrontendPolicy");
 
